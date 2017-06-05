@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>hmtl</title>
+</head>
+<style type="text/css">
+
+.page {
+  margin:0 auto;
+  width:700px;
+}
+
+.image-shown {
+  display:inline-block;
+  position:relative;
+  transition: opacity 500ms linear;
+}
+
+
+.image-hidden {
+  display:none;
+  transition: opacity 500ms linear;
+}
+
+.carousel-inner {
+  height:70vh;
+  position: relative;
+  float: left;
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 70vh;
+}
+
+
+.previousLink {
+  position:absolute;
+  top: 120px;
+  left:0;
+  z-index:9999;
+  color:#fff;
+  padding:5px;
+  background: rgba(0,0,0,0.5);
+  border:1px solid #222;
+  font-size:40px;
+}
+
+.nextLink {
+  position:absolute;
+  top: 120px;
+  right:0;
+  z-index:9999;
+  color:#fff;
+  padding:5px 4px;
+  background: rgba(0,0,0,0.5);
+  border:1px solid #222;
+  font-size:40px;
+}
+</style>
+<body>
+	<div class="page">
+		  <a class="previousLink" href="#">&#10094;</a>
+		    <div class="carousel-inner">
+		      <a href="#" class="image-shown"><img src="assets/img/1.jpg"></a>
+		      <a href="#" class="image-hidden"><img src="assets/img/2.jpg"></a>
+		      <a href="#" class="image-hidden"><img src="assets/img/3.jpg"></a>
+		      <a href="#" class="image-hidden"><img src="assets/img/4.jpg"></a>
+		      <a href="#" class="image-hidden"><img src="assets/img/5.jpg"></a>
+		    </div>    
+		   <a class="nextLink" href="#">&#10095;</a>
+	</div>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+  
+function nextLinkClicked() {
+    var currentActiveImage = $(".image-shown");
+    var nextActiveImage = currentActiveImage.next();
+    if(nextActiveImage.length == 0)
+    {
+      nextActiveImage = $(".carousel-inner a").first();
+    }
+    
+    currentActiveImage.removeClass("image-shown").addClass("image-hidden").css("z-index", -10);
+    nextActiveImage.addClass("image-shown").removeClass("image-hidden").css("z-index", 20);
+    $(".carousel-inner a").not([currentActiveImage, nextActiveImage]).css("z-index", 1);
+}
+  
+  $(".nextLink").on("click", function(e){
+    nextLinkClicked();
+    e.preventDefault();
+  });
+    
+  $(".previousLink").on("click", function(e){
+    var currentActiveImage = $(".image-shown");
+    var nextActiveImage = currentActiveImage.prev();
+    if(nextActiveImage.length == 0){
+      nextActiveImage = $(".carousel-inner a").last();
+    }
+    currentActiveImage.removeClass("image-shown").addClass("image-hidden").css("z-index", -10);
+    nextActiveImage.addClass("image-shown").removeClass("image-hidden").css("z-index", 20);
+    $(".carousel-inner a").not([currentActiveImage, nextActiveImage]).css("z-index", 1);
+    e.preventDefault();
+  });
+
+  setInterval(nextLinkClicked, 4000);
+});
+</script>
+</body>
+</html>
